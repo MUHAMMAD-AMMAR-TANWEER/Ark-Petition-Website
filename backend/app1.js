@@ -3,6 +3,8 @@ const passport = require('passport');
 const session = require('express-session');
 const passportSteam = require('passport-steam');
 const formData = require("./models/FormData")
+const fs = require("fs")
+const https = require("https")
 const SteamStrategy = passportSteam.Strategy;
 const app = express();
 const axios = require("axios")
@@ -13,7 +15,7 @@ app.use(bodyParser.json())
 
 
 const port = 3000;
-const baseUrl = 'http://localhost:3001/'
+const baseUrl = 'http://localhost:3000/'
 
 // Required to get data from user for sessions
 passport.serializeUser((user, done) => {
@@ -26,8 +28,8 @@ passport.deserializeUser((user, done) => {
 
 // Initiate Strategy
 passport.use(new SteamStrategy({
-	returnURL: 'http://localhost:' + port + '/api/auth/steam/return',
-	realm: 'http://localhost:' + port + '/',
+	returnURL: 'https://localhost:' + port + '/api/auth/steam/return',
+	realm: 'https://localhost:' + port + '/',
 	apiKey: '342526B76FAC938ED641DFBA45F12FA5'
 	}, function (identifier, profile, done) {
 		process.nextTick(function () {
@@ -51,9 +53,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Initiate app
-app.listen(port, () => {
-	console.log('Listening, port ' + port);
-});
+// app.listen(port, () => {
+// 	console.log('Listening, port ' + port);
+// });
 
 app.get('/', (req, res) => {
 	// res.send(req.user);
@@ -113,8 +115,33 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 	res.redirect('/')
 });
 
+
+https
+  .createServer(
+    {
+      key: fs.readFileSync("./privkey.pem"),
+      cert: fs.readFileSync("./fullchain.pem"),
+    },
+    app
+  )
+  .listen(8080, async () => {
+    console.log("Server Started");
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
 async function getHours(key,steamid)  {
-    const res = await axios.get('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/',
+    const res = await axios.get('https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/',
      { params: { key: key,steamid:steamid, format:'json' } });
     hoursPlayed = res.data.response.games.map((val)=>{
         newVal = 0
