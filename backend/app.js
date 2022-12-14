@@ -23,8 +23,8 @@ passport.deserializeUser((user, done) => {
 
 // Initiate Strategy
 passport.use(new SteamStrategy({
-	returnURL: 'http://localhost:' + port + '/api/auth/steam/return',
-	realm: 'http://localhost:' + port + '/',
+	returnURL: 'https://165.232.120.15'  + '/api/auth/steam/return',
+	realm: 'http://165.232.120.15:' + '/',
 	apiKey: process.env.WEB_API_KEY
 	}, function (identifier, profile, done) {
 		process.nextTick(function () {
@@ -84,7 +84,7 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 app.get('/page',(req,res) =>{
 	const username = "Ammar0000"
 	const hours = "31402"
-	res.redirect(`http://localhost:3001/join?username=${username}&hourplayed=${hours}`)
+	res.redirect(`https://165.232.120.15/join?username=${username}&hourplayed=${hours}`)
 })
 
 
