@@ -119,8 +119,8 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 https
   .createServer(
     {
-      key: fs.readFileSync("./privkey.pem"),
-      cert: fs.readFileSync("./fullchain.pem"),
+      key: fs.readFileSync("/etc/letsencrypt/live/gamers-petition.uk/privkey.pem"),
+      cert: fs.readFileSync("/etc/letsencrypt/live/gamers-petition.uk/fullchain.pem"),
     },
     app
   )
