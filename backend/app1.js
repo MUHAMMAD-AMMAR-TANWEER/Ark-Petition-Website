@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 
 
 const port = 3000;
-const baseUrl = 'http://localhost:3000/'
+const baseUrl = 'https://165.232.120.15/'
 
 // Required to get data from user for sessions
 passport.serializeUser((user, done) => {
@@ -28,8 +28,8 @@ passport.deserializeUser((user, done) => {
 
 // Initiate Strategy
 passport.use(new SteamStrategy({
-	returnURL: 'https://localhost:' + port + '/api/auth/steam/return',
-	realm: 'https://localhost:' + port + '/',
+	returnURL: 'https://165.232.120.15'  + '/api/auth/steam/return',
+	realm: 'http://165.232.120.15:' + '/',
 	apiKey: '342526B76FAC938ED641DFBA45F12FA5'
 	}, function (identifier, profile, done) {
 		process.nextTick(function () {
