@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { useState } from 'react';
 import axios from 'axios';
 function Page2() {
-  const ApiPoint = `https://localhost/ace`
+  const ApiPoint = `https://165.232.120.15/ace`
 
 
 
