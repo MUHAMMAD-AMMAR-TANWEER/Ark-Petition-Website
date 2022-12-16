@@ -65,7 +65,7 @@ app.get('/', (req, res) => {
 		console.log("Hours played",reponse)	
 		// res.send(`the response is ${reponse}`)
 		// res.sendFile('');
-		const url = `${baseUrl}join?username=${realname}&hourplayed=${reponse}`	
+		const url = `${baseUrl}/join?username=${realname}&hourplayed=${reponse}`	
 		res.redirect(url)
 	}).catch((e)=>{
 		res.redirect(baseUrl)

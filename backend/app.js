@@ -10,7 +10,7 @@ const httpProxy = require('http-proxy');
 const proxy = httpProxy.createServer({});
 
 require('dotenv').config()
-const port = 3000;
+const port = 4000;
 
 // Required to get data from user for sessions
 passport.serializeUser((user, done) => {
@@ -23,16 +23,15 @@ passport.deserializeUser((user, done) => {
 
 // Initiate Strategy
 passport.use(new SteamStrategy({
-	returnURL: 'https://165.232.120.15'  + '/api/auth/steam/return',
-	realm: 'http://165.232.120.15:' + '/',
-	apiKey: process.env.WEB_API_KEY
-	}, function (identifier, profile, done) {
-		process.nextTick(function () {
-			profile.identifier = identifier;
-
-			return done(null, profile);
-		});
-	}
+    returnURL: 'http://localhost:4000/auth/steam/return',
+    realm: 'http://localhost:3000/',
+    apiKey: 'your steam API key'
+  },
+  function(identifier, profile, done) {
+    User.findByOpenID({ openId: identifier }, function (err, user) {
+      return done(err, user);
+    });
+  }
 ));
 
 app.use(session({
@@ -53,23 +52,7 @@ app.listen(port, () => {
 	console.log('Listening, port ' + port);
 });
 
-app.get('/', (req, res) => {
-	// res.send(req.user["_json"]);// [steamid] [personaname] [realname]
-	const realname = req.user["_json"]["personaname"]
-	const steamid = req.user["_json"]["steamid"]
-	res.send(req.user)
-	// getHours('342526B76FAC938ED641DFBA45F12FA5',steamid).then((reponse)=>{
-	// 	console.log("Hours played",reponse)	
-	// 	// res.send(`the response is ${reponse}`)
-	// 	// res.sendFile('');
-	// 	const url = `http://localhost:3001/join?username=${realname}&hourplayed=${reponse}`	
-	// 	res.redirect(url)
-	// }).catch((e)=>{
-	// 	res.redirect('http://localhost:3001/')
-	// })
-	// res.send(hours)
-	// console.log("Hours played",hours)
-});
+
 
 // Routes
 app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
