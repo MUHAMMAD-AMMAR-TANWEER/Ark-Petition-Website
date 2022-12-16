@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 
 
 const port = 4000;
-const baseUrl = 'https://164.92.86.165'
+const baseUrl = 'http://164.92.86.165'
 
 // Required to get data from user for sessions
 passport.serializeUser((user, done) => {

@@ -137,7 +137,7 @@ function Page1() {
           right: 'var(--dl-space-space-sixunits)',
           textAlign: 'center',
         }}
-        onClick={() => { window.location.href = 'https://162.232.120.15:8080/api/auth/steam'; }}
+        onClick={() => { window.location.href = 'http://164.92.86.165:4000/ace/api/auth/steam'; }}
       >
         I play on Steam
       </button>
