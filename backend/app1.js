@@ -14,8 +14,8 @@ app.use(cors());
 app.use(bodyParser.json())
 
 
-const port = 3000;
-const baseUrl = 'https://165.232.120.15/'
+const port = 4000;
+const baseUrl = 'https://164.92.86.165'
 
 // Required to get data from user for sessions
 passport.serializeUser((user, done) => {
@@ -28,8 +28,8 @@ passport.deserializeUser((user, done) => {
 
 // Initiate Strategy
 passport.use(new SteamStrategy({
-	returnURL: 'https://165.232.120.15'  + '/api/auth/steam/return',
-	realm: 'http://165.232.120.15:' + '/',
+	returnURL: baseUrl +":" +port  + '/api/auth/steam/return',
+	realm: baseUrl +":" +port  + '/',
 	apiKey: '342526B76FAC938ED641DFBA45F12FA5'
 	}, function (identifier, profile, done) {
 		process.nextTick(function () {
@@ -53,9 +53,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Initiate app
-// app.listen(port, () => {
-// 	console.log('Listening, port ' + port);
-// });
+app.listen(port, () => {
+	console.log('Listening, port ' + port);
+});
 
 app.get('/', (req, res) => {
 	// res.send(req.user);
@@ -116,17 +116,17 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 });
 
 
-https
-  .createServer(
-    {
-      key: fs.readFileSync("/etc/letsencrypt/live/gamers-petition.uk/privkey.pem"),
-      cert: fs.readFileSync("/etc/letsencrypt/live/gamers-petition.uk/fullchain.pem"),
-    },
-    app
-  )
-  .listen(8080, async () => {
-    console.log("Server Started");
-  });
+// https
+//   .createServer(
+//     {
+//       key: fs.readFileSync("./privkey.pem"),
+//       cert: fs.readFileSync("./fullchain.pem"),
+//     },
+//     app
+//   )
+//   .listen(8080, async () => {
+//     console.log("Server Started");
+//   });
 
 
 
